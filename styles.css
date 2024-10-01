@@ -14,22 +14,23 @@ body {
     overflow: hidden;
     background-color: #70c5ce; /* Sky color */
     border: 2px solid #000; /* Border for the game area */
+    font-family: monospace; /* Use monospace font for text */
+    color: white; /* Color for text */
 }
 
 #bird {
     position: absolute;
-    width: 30px;
-    height: 30px;
-    background-color: yellow; /* Bird color */
-    border-radius: 50%; /* Make it circular */
     bottom: 250px; /* Initial position */
     left: 50px; /* Position from the left */
+    font-size: 30px; /* Size of the bird text */
 }
 
 .pipe {
     position: absolute;
     width: 50px;
     background-color: green; /* Pipe color */
+    color: green; /* Pipe color for text */
+    font-size: 30px; /* Size of the pipe text */
 }
 
 #score {
@@ -37,5 +38,4 @@ body {
     top: 10px;
     left: 10px;
     font-size: 24px;
-    color: white;
 }

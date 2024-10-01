@@ -22,6 +22,7 @@ function createPipe() {
     pipe.classList.add('pipe');
     pipe.style.height = randomHeight + 'px';
     pipe.style.left = '400px'; // Start from the right edge
+    pipe.innerText = '|'; // Representing the pipe with a stick figure
     gameArea.appendChild(pipe);
 
     // Move the pipe to the left
