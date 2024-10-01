@@ -1,74 +1,22 @@
-const gameArea = document.getElementById('game');
-const bird = document.getElementById('bird');
-const scoreDisplay = document.getElementById('score');
+const rainContainer = document.getElementById('rain');
 
-let birdY = 250; // Initial bird position
-let gravity = 2; // Gravity effect
-let isGameOver = false;
-let score = 0;
+function createDrop() {
+    const drop = document.createElement('div');
+    drop.classList.add('drop');
 
-// Function to make the bird jump
-function jump() {
-    if (!isGameOver) {
-        birdY -= 50; // Move the bird up
-        bird.style.bottom = birdY + 'px'; // Update bird position
-    }
+    // Set random position for the raindrop
+    drop.style.left = Math.random() * window.innerWidth + 'px';
+
+    // Set random animation duration for the raindrop
+    drop.style.animationDuration = Math.random() * 1 + 0.5 + 's'; // 0.5 to 1.5 seconds
+
+    rainContainer.appendChild(drop);
+
+    // Remove the drop after it falls
+    drop.addEventListener('animationend', () => {
+        drop.remove();
+    });
 }
 
-// Function to create pipes
-function createPipe() {
-    const pipe = document.createElement('div');
-    const randomHeight = Math.floor(Math.random() * 200) + 100; // Random height for the gap
-    pipe.classList.add('pipe');
-    pipe.style.height = randomHeight + 'px';
-    pipe.style.left = '400px'; // Start from the right edge
-    pipe.innerText = '|'; // Representing the pipe with a stick figure
-    gameArea.appendChild(pipe);
-
-    // Move the pipe to the left
-    const movePipe = setInterval(() => {
-        if (isGameOver) {
-            clearInterval(movePipe);
-            return;
-        }
-
-        const pipeLeft = parseInt(pipe.style.left);
-        if (pipeLeft < -50) {
-            clearInterval(movePipe);
-            gameArea.removeChild(pipe);
-            score++;
-            scoreDisplay.innerText = 'Score: ' + score;
-        } else {
-            pipe.style.left = pipeLeft - 3 + 'px';
-        }
-
-        // Collision detection
-        if (pipeLeft < 100 && pipeLeft > 50 && birdY < randomHeight) {
-            gameOver();
-        }
-    }, 20);
-}
-
-// Function to end the game
-function gameOver() {
-    isGameOver = true;
-    alert('Game Over! Your score: ' + score);
-    location.reload(); // Reload the page to restart the game
-}
-
-// Start the game
-document.addEventListener('keydown', jump);
-setInterval(createPipe, 2000); // Create a new pipe every 2 seconds
-
-// Apply gravity
-setInterval(() => {
-    if (!isGameOver) {
-        birdY += gravity; // Move the bird down
-        bird.style.bottom = birdY + 'px'; // Update bird position
-
-        // Check if the bird hits the ground
-        if (birdY < 0) {
-            gameOver();
-        }
-    }
-}, 20);
+// Create a raindrop every 100 milliseconds
+setInterval(createDrop, 100);
