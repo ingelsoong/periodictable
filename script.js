@@ -1,88 +1,27 @@
-let player = document.getElementById("player");
-let obstacle = document.getElementById("obstacle");
-let scoreDisplay = document.getElementById("score");
-let startButton = document.getElementById("startButton");
+const container = document.getElementById('container');
+const numberOfDrops = 100; // Total number of raindrops
 
-let score = 0;
-let isJumping = false;
-let isGameOver = false;
-let gameInterval;
-let obstacleInterval;
+function createDrop() {
+    const drop = document.createElement('div');
+    drop.classList.add('drop');
 
-// Start the game
-startButton.addEventListener("click", startGame);
+    // Set random position and animation duration
+    const randomX = Math.random() * window.innerWidth; // Random X position
+    const randomDuration = Math.random() * 1 + 1; // Random duration between 1s and 2s
+    drop.style.left = `${randomX}px`; // Position the drop
+    drop.style.animationDuration = `${randomDuration}s`; // Set the drop's fall duration
+    drop.style.animationDelay = `${Math.random() * 2}s`; // Random delay for each drop
 
-function startGame() {
-    score = 0;
-    isGameOver = false;
-    scoreDisplay.innerText = "Score: " + score;
-    obstacle.style.right = "-30px"; // Reset obstacle position
-    startButton.style.display = "none"; // Hide start button
+    container.appendChild(drop); // Add the drop to the container
 
-    gameInterval = setInterval(() => {
-        score++;
-        scoreDisplay.innerText = "Score: " + score;
-    }, 1000);
-
-    obstacleInterval = setInterval(() => {
-        moveObstacle();
-    }, 20);
+    // Remove the drop after animation ends
+    drop.addEventListener('animationend', () => {
+        drop.remove(); // Remove drop from DOM
+        createDrop(); // Create a new drop to maintain the rain effect
+    });
 }
 
-// Jump function
-function jump() {
-    if (isJumping) return;
-    isJumping = true;
-
-    let jumpHeight = 0;
-    const jumpInterval = setInterval(() => {
-        if (jumpHeight >= 50) {
-            clearInterval(jumpInterval);
-            const fallInterval = setInterval(() => {
-                if (jumpHeight <= 0) {
-                    clearInterval(fallInterval);
-                    isJumping = false;
-                }
-                jumpHeight -= 5;
-                player.style.bottom = jumpHeight + "px";
-            }, 20);
-        }
-        jumpHeight += 5;
-        player.style.bottom = jumpHeight + "px";
-    }, 20);
+// Create the initial drops
+for (let i = 0; i < numberOfDrops; i++) {
+    createDrop();
 }
-
-// Move the obstacle
-function moveObstacle() {
-    let obstaclePosition = parseInt(getComputedStyle(obstacle).right);
-    if (obstaclePosition < 400 && !isGameOver) {
-        obstacle.style.right = obstaclePosition + 5 + "px"; // Move the obstacle to the left
-    } else {
-        obstacle.style.right = "-30px"; // Reset obstacle position
-    }
-
-    checkCollision(obstaclePosition);
-}
-
-// Check for collisions
-function checkCollision(obstaclePosition) {
-    const playerPosition = parseInt(getComputedStyle(player).bottom);
-    if (obstaclePosition > 20 && obstaclePosition < 70 && playerPosition < 50) {
-        gameOver();
-    }
-}
-
-// End the game
-function gameOver() {
-    clearInterval(gameInterval);
-    clearInterval(obstacleInterval);
-    isGameOver = true;
-    alert("Game Over! Your score: " + score);
-    startButton.style.display = "block"; // Show start button again
-}
-
-document.addEventListener("keydown", (event) => {
-    if (event.code === "Space") {
-        jump();
-    }
-});

@@ -1,69 +1,37 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 100vh;
-    background-color: #87CEEB;
     margin: 0;
-    font-family: 'Arial', sans-serif;
-    color: #fff;
+    overflow: hidden; /* Prevents scrolling */
+    background-color: #001d3d; /* Dark background for contrast */
 }
 
-.game-container {
-    text-align: center;
-}
-
-#gameArea {
+.container {
     position: relative;
-    width: 400px;
-    height: 200px;
-    border: 2px solid #fff;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
-    background-image: url('https://example.com/path-to-your-background-image.jpg'); /* Add a suitable background image URL */
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 
-#player {
+.drop {
     position: absolute;
-    bottom: 10px;
-    left: 50px;
-    width: 40px;  /* Increased size */
-    height: 40px; /* Increased size */
-    background-image: url('https://example.com/path-to-your-character-sprite.png'); /* Character sprite URL */
-    background-size: cover;
-    transition: bottom 0.2s; /* Smooth jump transition */
+    bottom: 100%;
+    width: 10px; /* Width of the raindrop */
+    height: 10px; /* Height of the raindrop */
+    /* Choose one of the following backgrounds for different metallic looks */
+    background: linear-gradient(135deg, #FFFFFF, #A6A6A6); /* Silver Metallic */
+    /* background: linear-gradient(135deg, #FFF5BA, #FFC107); */ /* Gold Metallic */
+    /* background: linear-gradient(135deg, #D59B6B, #C66A3A); */ /* Copper Metallic */
+    /* background: linear-gradient(135deg, #E2B657, #8B5D33); */ /* Bronze Metallic */
+    /* background: linear-gradient(135deg, #A8A8A8, #5E5E5E); */ /* Titanium Metallic */
+    border-radius: 50%; /* Makes the raindrop circular */
+    animation: fall linear; /* Animation for falling effect */
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.3); /* Shiny effect */
 }
 
-#obstacle {
-    position: absolute;
-    bottom: 10px;
-    right: -30px; /* Start off-screen */
-    width: 30px;
-    height: 30px;
-    background-image: url('https://example.com/path-to-your-obstacle-sprite.png'); /* Obstacle sprite URL */
-    background-size: cover;
-    transition: right 0.1s linear; /* Smooth obstacle movement */
-}
-
-#score {
-    margin-top: 10px;
-    font-size: 1.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-}
-
-#startButton {
-    margin-top: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #ff5733;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-#startButton:hover {
-    background-color: #c0392b; /* Darker on hover */
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100vh); /* Moves the drop from top to bottom */
+    }
 }
