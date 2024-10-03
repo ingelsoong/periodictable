@@ -20,7 +20,7 @@ body {
     margin-bottom: 15px;
 }
 
-input, button, textarea {
+input, button {
     padding: 10px;
     margin: 10px 0;
     width: 80%;
@@ -42,12 +42,4 @@ button:hover {
 #result {
     margin-top: 10px;
     font-weight: bold;
-}
-
-#chatgpt-box {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 30px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
