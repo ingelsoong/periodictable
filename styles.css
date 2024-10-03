@@ -2,31 +2,68 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     height: 100vh;
-    background-color: #f4f4f4;
+    background-color: #87CEEB;
     margin: 0;
+    font-family: 'Arial', sans-serif;
+    color: #fff;
 }
 
 .game-container {
-    position: relative;
     text-align: center;
 }
 
-#gameCanvas {
-    background-color: lightblue;
-    border: 2px solid #333;
+#gameArea {
+    position: relative;
+    width: 400px;
+    height: 200px;
+    border: 2px solid #fff;
+    overflow: hidden;
+    background-image: url('https://example.com/path-to-your-background-image.jpg'); /* Add a suitable background image URL */
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#player {
+    position: absolute;
+    bottom: 10px;
+    left: 50px;
+    width: 40px;  /* Increased size */
+    height: 40px; /* Increased size */
+    background-image: url('https://example.com/path-to-your-character-sprite.png'); /* Character sprite URL */
+    background-size: cover;
+    transition: bottom 0.2s; /* Smooth jump transition */
+}
+
+#obstacle {
+    position: absolute;
+    bottom: 10px;
+    right: -30px; /* Start off-screen */
+    width: 30px;
+    height: 30px;
+    background-image: url('https://example.com/path-to-your-obstacle-sprite.png'); /* Obstacle sprite URL */
+    background-size: cover;
+    transition: right 0.1s linear; /* Smooth obstacle movement */
 }
 
 #score {
-    font-size: 24px;
-    font-family: Arial, sans-serif;
     margin-top: 10px;
+    font-size: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 #startButton {
-    display: inline-block;
     margin-top: 10px;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+    background-color: #ff5733;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#startButton:hover {
+    background-color: #c0392b; /* Darker on hover */
 }
