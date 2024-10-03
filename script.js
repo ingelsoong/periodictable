@@ -7,14 +7,16 @@ let isJumping = false;
 let isGameOver = false;
 let gameStarted = false;
 
-// Start game on button click
+// Start the game on button click
 startButton.addEventListener("click", function() {
     cactus.style.animation = "moveCactus 2s linear infinite"; // Start cactus movement
     startButton.style.display = "none"; // Hide the Start button
     gameStarted = true;
+    isGameOver = false;
+    cactus.style.display = "block"; // Ensure cactus is visible
 });
 
-// Handle jumping
+// Handle jumping when spacebar is pressed
 document.addEventListener("keydown", function(event) {
     if (event.code === "Space" && !isJumping && !isGameOver && gameStarted) {
         jump();
@@ -22,16 +24,17 @@ document.addEventListener("keydown", function(event) {
 });
 
 function jump() {
-    if (isJumping) return;
+    if (isJumping) return; // Prevent multiple jumps at the same time
 
     let position = 0;
     isJumping = true;
 
+    // Dino goes up
     let jumpInterval = setInterval(() => {
         if (position >= 150) {
             clearInterval(jumpInterval);
 
-            // Falling down
+            // Dino goes down
             let fallInterval = setInterval(() => {
                 if (position <= 0) {
                     clearInterval(fallInterval);
@@ -48,18 +51,18 @@ function jump() {
     }, 20);
 }
 
-// Detect collision
+// Collision detection
 let collisionCheck = setInterval(() => {
-    if (!gameStarted) return; // Don't check collision before the game starts
+    if (!gameStarted || isGameOver) return; // Don't check if the game hasn't started or is over
 
     const dinoBottom = parseInt(window.getComputedStyle(dino).getPropertyValue("bottom"));
-    const cactusLeft = parseInt(window.getComputedStyle(cactus).getPropertyValue("right"));
+    const cactusLeft = parseInt(window.getComputedStyle(cactus).getPropertyValue("left"));
 
-    if (cactusLeft >= 40 && cactusLeft <= 80 && dinoBottom <= 40) {
+    // Check if the cactus and dino collide
+    if (cactusLeft > 50 && cactusLeft < 90 && dinoBottom <= 40) {
         // Stop the game
-        cactus.style.animation = "none";
-        cactus.style.display = "none";
+        cactus.style.animation = "none"; // Stop cactus movement
         isGameOver = true;
-        gameOverText.classList.remove("hidden");
+        gameOverText.classList.remove("hidden"); // Show Game Over message
     }
 }, 10);
