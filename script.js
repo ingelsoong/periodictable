@@ -1,13 +1,22 @@
 const dino = document.getElementById("dino");
 const cactus = document.getElementById("cactus");
 const gameOverText = document.getElementById("game-over");
+const startButton = document.getElementById("start-button");
 
 let isJumping = false;
 let isGameOver = false;
+let gameStarted = false;
+
+// Start game on button click
+startButton.addEventListener("click", function() {
+    cactus.style.animation = "moveCactus 2s linear infinite"; // Start cactus movement
+    startButton.style.display = "none"; // Hide the Start button
+    gameStarted = true;
+});
 
 // Handle jumping
 document.addEventListener("keydown", function(event) {
-    if (event.code === "Space" && !isJumping && !isGameOver) {
+    if (event.code === "Space" && !isJumping && !isGameOver && gameStarted) {
         jump();
     }
 });
@@ -41,6 +50,8 @@ function jump() {
 
 // Detect collision
 let collisionCheck = setInterval(() => {
+    if (!gameStarted) return; // Don't check collision before the game starts
+
     const dinoBottom = parseInt(window.getComputedStyle(dino).getPropertyValue("bottom"));
     const cactusLeft = parseInt(window.getComputedStyle(cactus).getPropertyValue("right"));
 
