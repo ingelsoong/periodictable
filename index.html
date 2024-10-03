@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dinosaur Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Flappy Bird</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="game-container">
-        <div id="dino" class="dino"></div>
-        <div id="cactus" class="cactus"></div>
+        <canvas id="gameCanvas" width="320" height="480"></canvas>
+        <p id="score">Score: 0</p>
+        <button id="startButton">Start Game</button>
     </div>
-    <button id="start-button">Start Game</button> <!-- Start button -->
-    <p id="game-over" class="hidden">Game Over! Refresh to play again.</p>
 
     <script src="script.js"></script>
 </body>
