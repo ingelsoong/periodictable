@@ -1,58 +1,39 @@
-const rainContainer = document.querySelector('.rain-container');
+const canvas = document.getElementById('matrixCanvas');
+const ctx = canvas.getContext('2d');
 
-// Define the positions for the letters of "Kinetic Rain"
-const textPositions = [
-    { x: 100, y: -20 }, { x: 120, y: -20 }, { x: 140, y: -20 }, { x: 160, y: -20 }, // K
-    { x: 200, y: -20 }, { x: 220, y: -20 }, { x: 240, y: -20 }, // I
-    { x: 280, y: -20 }, { x: 300, y: -20 }, { x: 320, y: -20 }, // N
-    { x: 360, y: -20 }, { x: 380, y: -20 }, { x: 400, y: -20 }, // E
-    { x: 440, y: -20 }, { x: 460, y: -20 }, // T
-    { x: 500, y: -20 }, { x: 520, y: -20 }, { x: 540, y: -20 }, // I
-    { x: 580, y: -20 }, { x: 600, y: -20 }, // C
-    { x: 640, y: -20 }, { x: 660, y: -20 }, { x: 680, y: -20 }, // R
-    { x: 720, y: -20 }, { x: 740, y: -20 }, { x: 760, y: -20 }, // A
-    { x: 800, y: -20 }, { x: 820, y: -20 }, // I
-    { x: 860, y: -20 }, { x: 880, y: -20 }, { x: 900, y: -20 }  // N
-];
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-// Function to create raindrops at specified positions
-function createRaindrops() {
-    textPositions.forEach((pos) => {
-        const drop = document.createElement('div');
-        drop.classList.add('drop');
-        drop.style.left = `${pos.x}px`;
-        drop.style.top = `${pos.y}px`;
+const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+const fontSize = 16;
+const columns = Math.floor(canvas.width / fontSize);
+const drops = Array(columns).fill(1); // Start with one drop in each column
 
-        // Randomize animation duration and delay
-        const duration = Math.random() * 2 + 2; // Between 2s and 4s for a slower fall
-        const delay = Math.random() * 2; // Between 0s and 2s
+function draw() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Translucent black background
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        drop.style.animationDuration = `${duration}s`;
-        drop.style.animationDelay = `${delay}s`;
+    ctx.fillStyle = '#0F0'; // Green color for the text
+    ctx.font = `${fontSize}px monospace`;
 
-        rainContainer.appendChild(drop);
-    });
-}
+    for (let i = 0; i < drops.length; i++) {
+        const text = characters.charAt(Math.floor(Math.random() * characters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-// Update background color based on time of day
-function updateBackgroundColor() {
-    const hour = new Date().getHours();
-    const body = document.body;
+        // Reset drop to the top randomly
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0; // Reset the drop to the top
+        }
 
-    if (hour >= 6 && hour < 12) { // Morning
-        body.style.backgroundColor = '#87CEEB'; // Light sky blue
-    } else if (hour >= 12 && hour < 18) { // Afternoon
-        body.style.backgroundColor = '#ADD8E6'; // Lighter sky blue
-    } else if (hour >= 18 && hour < 21) { // Evening
-        body.style.backgroundColor = '#FFD700'; // Sunset yellow
-    } else { // Night
-        body.style.backgroundColor = '#1E1E1E'; // Dark night
+        drops[i]++;
     }
 }
 
-// Event listener for clicks and key presses
-document.addEventListener('click', createRaindrops);
-document.addEventListener('keydown', createRaindrops);
+// Adjust the canvas size on window resize
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
 
-// Update the background color when the page loads
-updateBackgroundColor();
+// Start the animation
+setInterval(draw, 35); // Draw every 35 milliseconds

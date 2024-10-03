@@ -1,32 +1,14 @@
 body {
     margin: 0;
     overflow: hidden;
-    background-color: #87CEEB; /* Default sky blue */
-    transition: background-color 1s ease; /* Smooth transition for background color */
+    background-color: black; /* Set a black background for the Matrix effect */
 }
 
-.rain-container {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-}
-
-.drop {
-    width: 10px; /* Droplet width */
-    height: 20px; /* Droplet height */
-    background-color: rgba(135, 206, 250, 0.8); /* Light blue color */
-    border-radius: 50%; /* Rounded for droplet look */
-    box-shadow: 0 0 10px rgba(135, 206, 250, 0.5); /* Soft glow effect */
-    opacity: 0.8; /* Slight transparency */
+canvas {
+    display: block;
     position: absolute;
-    animation: fall linear infinite; /* Animation for falling effect */
-}
-
-@keyframes fall {
-    0% {
-        transform: translateY(-100px); /* Start above the viewport */
-    }
-    100% {
-        transform: translateY(100vh); /* Fall to the bottom */
-    }
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
