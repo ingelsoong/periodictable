@@ -1,49 +1,54 @@
-// Function to generate random numbers
-function getRandomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+const dino = document.getElementById("dino");
+const cactus = document.getElementById("cactus");
+const gameOverText = document.getElementById("game-over");
 
-// Function to generate a random math question
-function generateQuestion() {
-    const operations = ['+', '-', '*', '/'];
-    const num1 = getRandomNumber(1, 20);  // Generate random numbers between 1 and 20
-    const num2 = getRandomNumber(1, 20);
-    const operation = operations[getRandomNumber(0, operations.length - 1)];
+let isJumping = false;
+let isGameOver = false;
 
-    let question, correctAnswer;
-
-    if (operation === '+') {
-        question = `${num1} + ${num2}`;
-        correctAnswer = num1 + num2;
-    } else if (operation === '-') {
-        question = `${num1} - ${num2}`;
-        correctAnswer = num1 - num2;
-    } else if (operation === '*') {
-        question = `${num1} * ${num2}`;
-        correctAnswer = num1 * num2;
-    } else if (operation === '/') {
-        // Ensure division leads to an integer result
-        const dividend = num1 * num2; // This ensures num1 is a multiple of num2
-        question = `${dividend} / ${num1}`;
-        correctAnswer = dividend / num1;
+// Handle jumping
+document.addEventListener("keydown", function(event) {
+    if (event.code === "Space" && !isJumping && !isGameOver) {
+        jump();
     }
+});
 
-    document.getElementById('question-box').innerText = `Question: ${question}`;
-    return correctAnswer;
+function jump() {
+    if (isJumping) return;
+
+    let position = 0;
+    isJumping = true;
+
+    let jumpInterval = setInterval(() => {
+        if (position >= 150) {
+            clearInterval(jumpInterval);
+
+            // Falling down
+            let fallInterval = setInterval(() => {
+                if (position <= 0) {
+                    clearInterval(fallInterval);
+                    isJumping = false;
+                } else {
+                    position -= 10;
+                    dino.style.bottom = position + "px";
+                }
+            }, 20);
+        } else {
+            position += 10;
+            dino.style.bottom = position + "px";
+        }
+    }, 20);
 }
 
-let correctAnswer = generateQuestion(); // Store the correct answer
+// Detect collision
+let collisionCheck = setInterval(() => {
+    const dinoBottom = parseInt(window.getComputedStyle(dino).getPropertyValue("bottom"));
+    const cactusLeft = parseInt(window.getComputedStyle(cactus).getPropertyValue("right"));
 
-// Function to check if the answer is correct
-function checkAnswer() {
-    const userAnswer = parseFloat(document.getElementById('answer').value);
-    const result = document.getElementById('result');
-
-    if (userAnswer === correctAnswer) {
-        result.innerText = 'Correct!';
-        result.style.color = 'green';
-    } else {
-        result.innerText = 'Wrong! Try again.';
-        result.style.color = 'red';
+    if (cactusLeft >= 40 && cactusLeft <= 80 && dinoBottom <= 40) {
+        // Stop the game
+        cactus.style.animation = "none";
+        cactus.style.display = "none";
+        isGameOver = true;
+        gameOverText.classList.remove("hidden");
     }
-}
+}, 10);

@@ -3,18 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Math Practice</title>
+    <title>Dinosaur Game</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Daily Math Practice</h1>
-        <p>Refresh the page for new questions every day!</p>
-        <div id="question-box"></div>
-        <input type="text" id="answer" placeholder="Enter your answer">
-        <button onclick="checkAnswer()">Submit</button>
-        <div id="result"></div>
+    <div class="game-container">
+        <div id="dino" class="dino"></div>
+        <div id="cactus" class="cactus"></div>
     </div>
+    <p id="game-over" class="hidden">Game Over! Refresh to play again.</p>
 
     <script src="script.js"></script>
 </body>
